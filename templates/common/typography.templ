@@ -1,0 +1,9 @@
+package common
+
+templ Typography(variant string, label string, classNames string) {
+	if variant == "header" {
+		<h1 class={ "text-white font-sans text-5xl", classNames }>{ label }</h1>
+	} else {
+		<p class={ "text-black font-sans text-sm", classNames }>{ label }</p>
+	}
+}

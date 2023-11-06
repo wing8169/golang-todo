@@ -10,10 +10,12 @@ import (
 func main() {
 	e := echo.New()
 	// Main menu
-	component := templates.Hello("John")
+	component := templates.Index()
 	e.GET("/", func(c echo.Context) error {
 		return component.Render(context.Background(), c.Response().Writer)
 	})
+	e.Static("/css", "css")
 	e.Static("/static", "static")
+	e.Static("/fonts", "fonts")
 	e.Logger.Fatal(e.Start(":3000"))
 }
