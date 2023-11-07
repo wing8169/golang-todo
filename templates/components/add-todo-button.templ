@@ -1,0 +1,12 @@
+package components
+
+templ AddTodoButton() {
+	<button
+ 		id="add-todo-btn"
+ 		hx-get="/components?type=add-todo"
+ 		hx-trigger="click"
+ 		hx-swap="outerHTML"
+ 		type="button"
+ 		class="bg-white hover:opacity-50 p-3 rounded-2xl border border-black border-solid"
+	>Add TODO</button>
+}

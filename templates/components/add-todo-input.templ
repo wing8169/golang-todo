@@ -1,0 +1,16 @@
+package components
+
+templ AddTodoInput() {
+	<div class="flex flex-row w-full gap-4 items-center" id="add-todo-section">
+		<input type="text" id="add-todo-input" name="add-todo-input" class="rounded-2xl text-black font-sans text-sm flex-1"/>
+		<span
+ 			class="material-symbols-outlined cursor-pointer text-white"
+ 			hx-get="/components?type=add-todo-btn"
+ 			hx-trigger="click"
+ 			hx-swap="outerHTML"
+ 			hx-target="#add-todo-section"
+		>
+			close
+		</span>
+	</div>
+}

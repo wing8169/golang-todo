@@ -1,6 +1,7 @@
 package templates
 
 import "github.com/wing8169/golang-todo/templates/common"
+import "github.com/wing8169/golang-todo/templates/components"
 
 templ Index() {
 	<html lang="en">
@@ -8,6 +9,7 @@ templ Index() {
 			<meta charset="utf-8"/>
 			<title>Golang TODO</title>
 			<link href="/css/output.css" rel="stylesheet"/>
+			<script src="https://unpkg.com/htmx.org@1.9.8"></script>
 			<link
  				href="https://fonts.googleapis.com/icon?family=Material+Icons"
  				rel="stylesheet"
@@ -18,7 +20,7 @@ templ Index() {
 			<div class="h-screen w-screen bg-black flex flex-col justify-center items-center relative">
 				<div class="w-screen bg-black flex flex-col justify-center items-center relative max-w-2xl">
 					@common.Typography("header", "TODO-LIST", "mb-12")
-					@common.Button("Add TODO")
+					@components.AddTodoButton()
 					<div class="h-12"></div>
 					<div class="bg-white p-6 rounded-2xl shadow-lg w-full flex flex-col gap-4">
 						//    List of TODOs
