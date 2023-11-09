@@ -23,16 +23,25 @@ func AddTodoInput() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"flex flex-row w-full gap-4 items-center\" id=\"add-todo-section\"><input type=\"text\" id=\"add-todo-input\" name=\"add-todo-input\" class=\"rounded-2xl text-black font-sans text-sm flex-1\"> <span class=\"material-symbols-outlined cursor-pointer text-white\" hx-get=\"/components?type=add-todo-btn\" hx-trigger=\"click\" hx-swap=\"outerHTML\" hx-target=\"#add-todo-section\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form class=\"flex flex-row w-full gap-4 items-center\" id=\"add-todo-section\"><input type=\"text\" id=\"add-todo-input\" name=\"add-todo-input\" class=\"rounded-2xl text-black font-sans text-sm flex-1\"> <span class=\"material-symbols-outlined cursor-pointer text-white\" hx-post=\"/todos\" hx-trigger=\"click\" hx-swap=\"outerHTML\" hx-target=\"#todos\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Var2 := `close`
+		templ_7745c5c3_Var2 := `check`
 		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var2)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></div>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span> <span class=\"material-symbols-outlined cursor-pointer text-white\" hx-get=\"/components?type=add-todo-btn\" hx-trigger=\"click\" hx-swap=\"outerHTML\" hx-target=\"#add-todo-section\">")
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		templ_7745c5c3_Var3 := `close`
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString(templ_7745c5c3_Var3)
+		if templ_7745c5c3_Err != nil {
+			return templ_7745c5c3_Err
+		}
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</span></form>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

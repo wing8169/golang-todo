@@ -12,8 +12,9 @@ import "bytes"
 
 import "github.com/wing8169/golang-todo/templates/common"
 import "github.com/wing8169/golang-todo/templates/components"
+import "github.com/wing8169/golang-todo/dto"
 
-func Index() templ.Component {
+func Index(todos []*dto.TodoCardDto) templ.Component {
 	return templ.ComponentFunc(func(ctx context.Context, templ_7745c5c3_W io.Writer) (templ_7745c5c3_Err error) {
 		templ_7745c5c3_Buffer, templ_7745c5c3_IsBuffer := templ_7745c5c3_W.(*bytes.Buffer)
 		if !templ_7745c5c3_IsBuffer {
@@ -56,19 +57,15 @@ func Index() templ.Component {
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"h-12\"></div><div class=\"bg-white p-6 rounded-2xl shadow-lg w-full flex flex-col gap-4\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<div class=\"h-12\"></div>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = TodoCard(TodoCardDto{id: "test", text: "Todo first one."}).Render(ctx, templ_7745c5c3_Buffer)
+		templ_7745c5c3_Err = components.TodoCards(todos).Render(ctx, templ_7745c5c3_Buffer)
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
-		templ_7745c5c3_Err = TodoCard(TodoCardDto{id: "test2", text: "Todo second one."}).Render(ctx, templ_7745c5c3_Buffer)
-		if templ_7745c5c3_Err != nil {
-			return templ_7745c5c3_Err
-		}
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></div></body></html>")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("</div></div></body></html>")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}

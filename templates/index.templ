@@ -2,8 +2,9 @@ package templates
 
 import "github.com/wing8169/golang-todo/templates/common"
 import "github.com/wing8169/golang-todo/templates/components"
+import "github.com/wing8169/golang-todo/dto"
 
-templ Index() {
+templ Index(todos []*dto.TodoCardDto) {
 	<html lang="en">
 		<head>
 			<meta charset="utf-8"/>
@@ -22,11 +23,7 @@ templ Index() {
 					@common.Typography("header", "TODO-LIST", "mb-12")
 					@components.AddTodoButton()
 					<div class="h-12"></div>
-					<div class="bg-white p-6 rounded-2xl shadow-lg w-full flex flex-col gap-4">
-						//    List of TODOs
-						@TodoCard(TodoCardDto{id: "test", text: "Todo first one."})
-						@TodoCard(TodoCardDto{id: "test2", text: "Todo second one."})
-					</div>
+					@components.TodoCards(todos)
 				</div>
 			</div>
 		</body>

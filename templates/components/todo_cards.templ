@@ -1,0 +1,11 @@
+package components
+
+import "github.com/wing8169/golang-todo/dto"
+
+templ TodoCards(todos []*dto.TodoCardDto) {
+	<div class="bg-white p-6 rounded-2xl shadow-lg w-full flex flex-col gap-4" id="todos">
+		for _, todo := range todos {
+			@TodoCard(dto.TodoCardDto{ID: todo.ID, Text: todo.Text, Checked: todo.Checked})
+		}
+	</div>
+}

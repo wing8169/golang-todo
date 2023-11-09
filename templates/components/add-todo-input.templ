@@ -1,8 +1,17 @@
 package components
 
 templ AddTodoInput() {
-	<div class="flex flex-row w-full gap-4 items-center" id="add-todo-section">
+	<form class="flex flex-row w-full gap-4 items-center" id="add-todo-section">
 		<input type="text" id="add-todo-input" name="add-todo-input" class="rounded-2xl text-black font-sans text-sm flex-1"/>
+		<span
+ 			class="material-symbols-outlined cursor-pointer text-white"
+ 			hx-post="/todos"
+ 			hx-trigger="click"
+ 			hx-swap="outerHTML"
+ 			hx-target="#todos"
+		>
+			check
+		</span>
 		<span
  			class="material-symbols-outlined cursor-pointer text-white"
  			hx-get="/components?type=add-todo-btn"
@@ -12,5 +21,5 @@ templ AddTodoInput() {
 		>
 			close
 		</span>
-	</div>
+	</form>
 }
