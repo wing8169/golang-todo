@@ -52,7 +52,7 @@ func main() {
 				Checked: false,
 			},
 		)
-		component := components.TodoCards(todos)
+		component := components.TodoCardsWithBtn(todos)
 		return component.Render(context.Background(), c.Response().Writer)
 	})
 	e.DELETE("/todos/:id", func(c echo.Context) error {

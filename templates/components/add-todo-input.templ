@@ -7,8 +7,8 @@ templ AddTodoInput() {
  			class="material-symbols-outlined cursor-pointer text-white"
  			hx-post="/todos"
  			hx-trigger="click"
- 			hx-swap="outerHTML"
- 			hx-target="#todos"
+ 			hx-swap="multi:#add-todo-section:outerHTML,#todos:outerHTML"
+ 			hx-ext="multi-swap"
 		>
 			check
 		</span>

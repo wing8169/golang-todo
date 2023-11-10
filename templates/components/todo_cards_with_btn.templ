@@ -1,0 +1,8 @@
+package components
+
+import "github.com/wing8169/golang-todo/dto"
+
+templ TodoCardsWithBtn(todos []*dto.TodoCardDto) {
+	@TodoCards(todos)
+	@AddTodoButton()
+}

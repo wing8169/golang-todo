@@ -23,7 +23,7 @@ func AddTodoInput() templ.Component {
 			templ_7745c5c3_Var1 = templ.NopComponent
 		}
 		ctx = templ.ClearChildren(ctx)
-		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form class=\"flex flex-row w-full gap-4 items-center\" id=\"add-todo-section\"><input type=\"text\" id=\"add-todo-input\" name=\"add-todo-input\" class=\"rounded-2xl text-black font-sans text-sm flex-1\"> <span class=\"material-symbols-outlined cursor-pointer text-white\" hx-post=\"/todos\" hx-trigger=\"click\" hx-swap=\"outerHTML\" hx-target=\"#todos\">")
+		_, templ_7745c5c3_Err = templ_7745c5c3_Buffer.WriteString("<form class=\"flex flex-row w-full gap-4 items-center\" id=\"add-todo-section\"><input type=\"text\" id=\"add-todo-input\" name=\"add-todo-input\" class=\"rounded-2xl text-black font-sans text-sm flex-1\"> <span class=\"material-symbols-outlined cursor-pointer text-white\" hx-post=\"/todos\" hx-trigger=\"click\" hx-swap=\"multi:#add-todo-section:outerHTML,#todos:outerHTML\" hx-ext=\"multi-swap\">")
 		if templ_7745c5c3_Err != nil {
 			return templ_7745c5c3_Err
 		}
