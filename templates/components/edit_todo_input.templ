@@ -1,0 +1,27 @@
+package components
+
+import "github.com/wing8169/golang-todo/dto"
+
+templ EditTodoInput(todo *dto.TodoCardDto) {
+	<form class="flex flex-row w-full gap-4 items-center" id={ "edit-todo-" + todo.ID }>
+		<input type="text" name="edit-todo-input" class="rounded-2xl text-black font-sans text-sm flex-1" value={ todo.Text }/>
+		<span
+ 			class="material-symbols-outlined cursor-pointer text-black"
+ 			hx-put={ "/todos/" + todo.ID }
+ 			hx-trigger="click"
+ 			hx-swap="outerHTML"
+ 			hx-target={ "#edit-todo-" + todo.ID }
+		>
+			check
+		</span>
+		<span
+ 			class="material-symbols-outlined cursor-pointer text-black"
+ 			hx-get={ "/components?type=edit-todo-btn&id=" + todo.ID }
+ 			hx-trigger="click"
+ 			hx-swap="outerHTML"
+ 			hx-target={ "#edit-todo-" + todo.ID }
+		>
+			close
+		</span>
+	</form>
+}

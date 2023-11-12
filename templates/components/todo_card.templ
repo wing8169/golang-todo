@@ -6,7 +6,13 @@ import "github.com/wing8169/golang-todo/dto"
 templ TodoCard(todo dto.TodoCardDto) {
 	<div class="p-6 py-3 flex flex-row items-center w-full gap-4 rounded-2xl border border-black border-solid" id={ "todo-" + todo.ID }>
 		@common.Typography("normal", todo.Text, "flex-1")
-		<span class="material-symbols-outlined cursor-pointer hover:opacity-50">
+		<span
+ 			class="material-symbols-outlined cursor-pointer hover:opacity-50"
+ 			hx-get={ "/components?type=edit-todo-input&id=" + todo.ID }
+ 			hx-trigger="click"
+ 			hx-swap="outerHTML"
+ 			hx-target={ "#todo-" + todo.ID }
+		>
 			edit
 		</span>
 		<span
