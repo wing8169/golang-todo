@@ -2,50 +2,41 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"database/sql"
+	"log"
 	"net/http"
 
-	"github.com/google/uuid"
+	_ "github.com/mattn/go-sqlite3"
+
 	"github.com/labstack/echo/v4"
-	"github.com/wing8169/golang-todo/dto"
+	"github.com/wing8169/golang-todo/services"
 	"github.com/wing8169/golang-todo/templates"
 	"github.com/wing8169/golang-todo/templates/components"
 )
 
-func filterByID(todos []*dto.TodoCardDto, id string) (out []*dto.TodoCardDto) {
-	for _, todo := range todos {
-		if todo.ID == id {
-			continue
-		}
-		out = append(out, todo)
-	}
-	return out
-}
-
-func findByID(todos []*dto.TodoCardDto, id string) *dto.TodoCardDto {
-	for _, todo := range todos {
-		if todo.ID == id {
-			return todo
-		}
-	}
-	return nil
-}
-
 func main() {
-	todos := []*dto.TodoCardDto{
-		{
-			ID:      uuid.New().String(),
-			Text:    "First item",
-			Checked: false,
-		}, {
-			ID:      uuid.New().String(),
-			Text:    "Second item",
-			Checked: false,
-		},
+	db, err := sql.Open("sqlite3", "./db/todo.db")
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer db.Close()
+
+	sqlStmt := `
+	create table if not exists todo (id text not null primary key, text text, checked bool);
+	`
+	_, err = db.Exec(sqlStmt)
+	if err != nil {
+		log.Printf("%q: %s\n", err, sqlStmt)
+		return
+	}
+
+	todoService := &services.TodoService{
+		DB: db,
 	}
 
 	e := echo.New()
 	e.GET("/", func(c echo.Context) error {
+		todos := todoService.GetTodos()
 		component := templates.Index(todos)
 		return component.Render(context.Background(), c.Response().Writer)
 	})
@@ -54,14 +45,8 @@ func main() {
 		if text == "" {
 			return echo.NewHTTPError(http.StatusBadRequest, "Invalid text")
 		}
-		// add to todo
-		todos = append(todos,
-			&dto.TodoCardDto{
-				ID:      uuid.New().String(),
-				Text:    text,
-				Checked: false,
-			},
-		)
+		todoService.CreateTodo(text)
+		todos := todoService.GetTodos()
 		component := components.TodoCardsWithBtn(todos)
 		return component.Render(context.Background(), c.Response().Writer)
 	})
@@ -70,15 +55,25 @@ func main() {
 		if id == "" {
 			return echo.NewHTTPError(http.StatusBadRequest, "Invalid id")
 		}
-		todo := findByID(todos, id)
-		if todo == nil {
-			return echo.NewHTTPError(http.StatusNotFound, "Todo card not found")
+
+		oldTodo := todoService.GetTodo(id)
+
+		text := c.FormValue("edit-todo-input")
+		if text == "" {
+			text = oldTodo.Text
 		}
-		todo.Text = c.FormValue("edit-todo-input")
+
+		checkedString := c.FormValue("checked")
+		var checked bool
+		if checkedString == "on" {
+			checked = true
+		} else {
+			checked = false
+		}
+
+		todo := todoService.UpdateTodo(id, text, checked)
+
 		component := components.TodoCard(*todo)
-		for _, t := range todos {
-			fmt.Println(t.Text)
-		}
 		return component.Render(context.Background(), c.Response().Writer)
 	})
 	e.DELETE("/todos/:id", func(c echo.Context) error {
@@ -86,7 +81,8 @@ func main() {
 		if id == "" {
 			return echo.NewHTTPError(http.StatusBadRequest, "Invalid id")
 		}
-		todos = filterByID(todos, id)
+		todoService.DeleteTodo(id)
+		todos := todoService.GetTodos()
 		component := components.TodoCards(todos)
 		return component.Render(context.Background(), c.Response().Writer)
 	})
@@ -101,11 +97,11 @@ func main() {
 			component := components.AddTodoButton()
 			return component.Render(context.Background(), c.Response().Writer)
 		case "edit-todo-input":
-			todo := findByID(todos, id)
+			todo := todoService.GetTodo(id)
 			component := components.EditTodoInput(todo)
 			return component.Render(context.Background(), c.Response().Writer)
 		case "edit-todo-btn":
-			todo := findByID(todos, id)
+			todo := todoService.GetTodo(id)
 			component := components.TodoCard(*todo)
 			return component.Render(context.Background(), c.Response().Writer)
 		}
